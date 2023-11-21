@@ -78,7 +78,7 @@ export default function RecipeDetailScreen(props) {
   };
 
   return (
-    <View className="flex-1 bg-white relative">
+    <View className="flex-1 bg-pink-500 relative">
       <StatusBar style={"light"} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -107,7 +107,7 @@ export default function RecipeDetailScreen(props) {
             onPress={() => navigation.goBack()}
             className="p-2 rounded-full ml-5 bg-white"
           >
-            <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color="#fbbf24" />
+            <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color="gray" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setIsFavourite(!isFavourite)}
@@ -133,13 +133,13 @@ export default function RecipeDetailScreen(props) {
             >
               <Text
                 style={{ fontSize: hp(3) }}
-                className="font-bold flex-1 text-neutral-700"
+                className="font-bold flex-1 text-white/90"
               >
                 {meal?.strMeal}
               </Text>
               <Text
                 style={{ fontSize: hp(2) }}
-                className="font-medium flex-1 text-neutral-500"
+                className="font-medium flex-1 text-white/90"
               >
                 {meal?.strArea}
               </Text>
@@ -153,91 +153,93 @@ export default function RecipeDetailScreen(props) {
                 .damping(12)}
               className="flex-row justify-around"
             >
-              <View className="flex rounded-full bg-amber-300 p-2">
+              <View className="flex rounded-full bg-white p-2">
                 <View
                   style={{ height: hp(6.5), width: hp(6.5) }}
-                  className="bg-white rounded-full flex items-center justify-center"
+                  className="bg-pink-500 rounded-full flex items-center justify-center"
                 >
-                  <ClockIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
+                  <ClockIcon size={hp(4)} strokeWidth={2.5} color="white" />
                 </View>
                 <View className="flex items-center py-2 space-y-1">
                   <Text
                     style={{ fontSize: hp(2) }}
-                    className="font-bold text-neutral-700"
+                    className="font-bold text-black"
                   >
                     35
                   </Text>
                   <Text
                     style={{ fontSize: hp(1.3) }}
-                    className="font-bold text-neutral-700"
+                    className="font-bold text-black"
                   >
                     Mins
                   </Text>
                 </View>
               </View>
-              <View className="flex rounded-full bg-amber-300 p-2">
+              <View className="flex rounded-full bg-white p-2">
                 <View
                   style={{ height: hp(6.5), width: hp(6.5) }}
-                  className="bg-white rounded-full flex items-center justify-center"
+                  className="bg-pink-500 rounded-full flex items-center justify-center"
                 >
-                  <UsersIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
+                  <UsersIcon size={hp(4)} strokeWidth={2.5} color="white" />
                 </View>
                 <View className="flex items-center py-2 space-y-1">
                   <Text
                     style={{ fontSize: hp(2) }}
-                    className="font-bold text-neutral-700"
+                    className="font-bold text-black"
                   >
                     03
                   </Text>
                   <Text
                     style={{ fontSize: hp(1.3) }}
-                    className="font-bold text-neutral-700"
+                    className="font-bold text-black"
                   >
                     Servings
                   </Text>
                 </View>
               </View>
-              <View className="flex rounded-full bg-amber-300 p-2">
+              <View className="flex rounded-full bg-white p-2">
                 <View
                   style={{ height: hp(6.5), width: hp(6.5) }}
-                  className="bg-white rounded-full flex items-center justify-center"
+                  className="bg-pink-500 rounded-full flex items-center justify-center"
                 >
-                  <FireIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
+                  <FireIcon size={hp(4)} strokeWidth={2.5} color="white" />
                 </View>
                 <View className="flex items-center py-2 space-y-1">
                   <Text
                     style={{ fontSize: hp(2) }}
-                    className="font-bold text-neutral-700"
+                    className="font-bold text-black"
                   >
                     103
                   </Text>
                   <Text
                     style={{ fontSize: hp(1.3) }}
-                    className="font-bold text-neutral-700"
+                    className="font-bold text-black"
                   >
                     Cal
                   </Text>
                 </View>
               </View>
-              <View className="flex rounded-full bg-amber-300 p-2">
+              <View className="flex rounded-full bg-white p-2">
                 <View
                   style={{ height: hp(6.5), width: hp(6.5) }}
-                  className="bg-white rounded-full flex items-center justify-center"
+                  className="bg-pink-500 rounded-full flex items-center justify-center"
                 >
                   <Square3Stack3DIcon
                     size={hp(4)}
                     strokeWidth={2.5}
-                    color="#525252"
+                    color="white"
                   />
                 </View>
                 <View className="flex items-center py-2 space-y-1">
                   <Text
                     style={{ fontSize: hp(2) }}
-                    className="font-bold text-neutral-700"
-                  ></Text>
+                    className="font-bold text-black"
+                  >
+                    31
+                  </Text>
                   <Text
                     style={{ fontSize: hp(1.3) }}
-                    className="font-bold text-neutral-700"
+                    className="font-bold text-black"
                   >
                     Easy
                   </Text>
@@ -255,7 +257,7 @@ export default function RecipeDetailScreen(props) {
             >
               <Text
                 style={{ fontSize: hp(2.5) }}
-                className="font-bold flex-1 text-neutral-700"
+                className="font-bold flex-1 text-white/90"
               >
                 Ingredients
               </Text>
@@ -265,18 +267,18 @@ export default function RecipeDetailScreen(props) {
                     <View key={i} className="flex-row space-x-4">
                       <View
                         style={{ height: hp(1.5), width: hp(1.5) }}
-                        className="bg-amber-300 rounded-full"
+                        className="bg-white rounded-full"
                       />
                       <View className="flex-row space-x-2">
                         <Text
                           style={{ fontSize: hp(1.7) }}
-                          className="font-extrabold text-neutral-700"
+                          className="font-extrabold text-black"
                         >
                           {meal["strMeasure" + i]}
                         </Text>
                         <Text
                           style={{ fontSize: hp(1.7) }}
-                          className="font-medium text-neutral-600"
+                          className="font-medium text-white/90"
                         >
                           {meal["strIngredient" + i]}
                         </Text>
@@ -296,11 +298,11 @@ export default function RecipeDetailScreen(props) {
             >
               <Text
                 style={{ fontSize: hp(2.5) }}
-                className="font-bold flex-1 text-neutral-700"
+                className="font-bold flex-1 text-white/90/80"
               >
                 Instructions
               </Text>
-              <Text style={{ fontSize: hp(1.6) }} className="text-neutral-700">
+              <Text style={{ fontSize: hp(1.6) }} className="text-white/90">
                 {meal?.strInstructions}
               </Text>
             </Animated.View>
@@ -317,7 +319,7 @@ export default function RecipeDetailScreen(props) {
               >
                 <Text
                   style={{ fontSize: hp(2.5) }}
-                  className="font-bold flex-1 text-neutral-700"
+                  className="font-bold flex-1 text-white/90"
                 >
                   Recipe Video
                 </Text>
@@ -337,7 +339,7 @@ export default function RecipeDetailScreen(props) {
                       onPress={() => handleOpenLink(meal.strYoutube)}
                     >
                       <Text
-                        className="text-blue-600"
+                        className="text-blue-800"
                         style={{ fontSize: hp(2) }}
                       >
                         {meal.strYoutube}
