@@ -1,100 +1,121 @@
-import {
-  View,
-  Text,
-  StatusBar,
-  ScrollView,
-  Image,
-  TextInput,
-} from "react-native";
+import { View, Text, ScrollView, Image, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import {
-  BellIcon,
-  MagnifyingGlassCircleIcon,
-} from "react-native-heroicons/outline";
+import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import Categories from "../components/categories";
 import axios from "axios";
-
+import Recipes from "../components/recipes";
 export default function HomeScreen() {
-  // active area start
-  const [activeCategory, setActiveCaegory] = useState("Beef");
-  // active area end
-
-  // all data come to BDMill start
+  const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
-  const getCategories = async () => {
-    try {
-      const respons = await axios.get(
-        "https://themealdb.com/api/json/v1/1/categories.php"
-      );
-      if (respons && respons.data) {
-        setCategories(respons.data.categories);
-      }
-    } catch (error) {
-      console.log("all Error", error.message);
-    }
-  };
+  const [meals, setMeals] = useState([]);
+
   useEffect(() => {
     getCategories();
+    getRecipes();
   }, []);
-  // all data come to BDMill end
+
+  const handleChangeCategory = (category) => {
+    getRecipes(category);
+    setActiveCategory(category);
+    setMeals([]);
+  };
+
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(
+        "https://themealdb.com/api/json/v1/1/categories.php"
+      );
+      // console.log('got categories: ',response.data);
+      if (response && response.data) {
+        setCategories(response.data.categories);
+      }
+    } catch (err) {
+      console.log("error: ", err.message);
+    }
+  };
+  const getRecipes = async (category = "Beef") => {
+    try {
+      const response = await axios.get(
+        `https://themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+      // console.log('got recipes: ',response.data);
+      if (response && response.data) {
+        setMeals(response.data.meals);
+      }
+    } catch (err) {
+      console.log("error: ", err.message);
+    }
+  };
   return (
-    <View className="bg-pink-500 ">
+    <View className="flex-1 bg-pink-500 ">
       <StatusBar style="dark" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 50 }}
-        className="space-y-6 pt-7"
+        className="space-y-6 pt-14"
       >
         {/* All Imgage and bell icon area start */}
         <View className="mx-4 flex-row justify-between items-center mb-2">
           <Image
             source={require("../../assets/images/avatar.png")}
-            style={{ width: hp(5), height: hp(5) }}
+            style={{ height: hp(5), width: hp(5.5) }}
           />
-          <BellIcon size={hp(4)} color={"white"} />
+          <BellIcon size={hp(4)} color="white" />
         </View>
         {/* All Imgage and bell icon area end */}
 
         {/* Greeting area start  */}
         <View className="mx-4 space-y-2 mb-2">
-          <Text className="text-white mt-3 font-bold text-lg">Hi, Sadid</Text>
-          <Text className="text-white mt-3 font-bold text-2xl">
-            Make Your own <Text className="text-pink-500 bg-white">Food</Text>
+          <Text style={{ fontSize: hp(1.7) }} className="text-white">
+            Hi, Sadid!
           </Text>
+          <View>
+            <Text
+              style={{ fontSize: hp(3.8) }}
+              className="font-semibold text-white"
+            >
+              Make your own <Text className="text-pink-500 bg-white">Food</Text>
+            </Text>
+          </View>
         </View>
         {/* Greeting area end */}
 
         {/* search area start */}
-        <View className="max-4 flex-row justify-between items-center rounded-full bg-gray-100 p-[6px] mx-3">
+        <View className="mx-4 flex-row items-center rounded-full bg-gray-100 p-[6px]">
           <TextInput
             placeholder="Search any recipe"
             placeholderTextColor={"gray"}
-            className="pl-3 tracking-wider"
+            style={{ fontSize: hp(1.7) }}
+            className="flex-1 text-base mb-1 pl-3 tracking-wider"
           />
-          <View className="bg-white rounded-full p-2">
-            <MagnifyingGlassCircleIcon
-              size={hp(3.5)}
-              strokeWidth={2}
-              color={"gray"}
-            />
+          <View className="bg-white rounded-full p-3">
+            <MagnifyingGlassIcon size={hp(2.5)} strokeWidth={3} color="gray" />
           </View>
         </View>
         {/* search area end */}
 
         {/* categories area start */}
         <View>
-          <Categories
-            activeCategory={activeCategory}
-            setActiveCaegory={setActiveCaegory}
-            categories={categories}
-          />
+          {categories.length > 0 && (
+            <Categories
+              categories={categories}
+              activeCategory={activeCategory}
+              handleChangeCategory={handleChangeCategory}
+            />
+          )}
         </View>
-
         {/* categories area end */}
+
+        {/* recipes area start */}
+        <View>
+          <Recipes meals={meals} categories={categories} />
+        </View>
+        {/* recipes area end */}
       </ScrollView>
     </View>
   );
