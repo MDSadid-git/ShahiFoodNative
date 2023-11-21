@@ -6,7 +6,7 @@ import {
   Image,
   TextInput,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -15,8 +15,32 @@ import {
   BellIcon,
   MagnifyingGlassCircleIcon,
 } from "react-native-heroicons/outline";
+import Categories from "../components/categories";
+import axios from "axios";
 
 export default function HomeScreen() {
+  // active area start
+  const [activeCategory, setActiveCaegory] = useState("Beef");
+  // active area end
+
+  // all data come to BDMill start
+  const [categories, setCategories] = useState([]);
+  const getCategories = async () => {
+    try {
+      const respons = await axios.get(
+        "https://themealdb.com/api/json/v1/1/categories.php"
+      );
+      if (respons && respons.data) {
+        setCategories(respons.data.categories);
+      }
+    } catch (error) {
+      console.log("all Error", error.message);
+    }
+  };
+  useEffect(() => {
+    getCategories();
+  }, []);
+  // all data come to BDMill end
   return (
     <View className="bg-pink-500 ">
       <StatusBar style="dark" />
@@ -45,7 +69,7 @@ export default function HomeScreen() {
         {/* Greeting area end */}
 
         {/* search area start */}
-        <View className="max-4 flex-row justify-between items-center rounded-full bg-gray-100 p-[6px] m-3 ">
+        <View className="max-4 flex-row justify-between items-center rounded-full bg-gray-100 p-[6px] mx-3">
           <TextInput
             placeholder="Search any recipe"
             placeholderTextColor={"gray"}
@@ -60,6 +84,16 @@ export default function HomeScreen() {
           </View>
         </View>
         {/* search area end */}
+
+        {/* categories area start */}
+        <View>
+          <Categories
+            activeCategory={activeCategory}
+            setActiveCaegory={setActiveCaegory}
+            categories={categories}
+          />
+        </View>
+        {/* categories area end */}
       </ScrollView>
     </View>
   );
