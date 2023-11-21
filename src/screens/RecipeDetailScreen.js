@@ -92,8 +92,8 @@ export default function RecipeDetailScreen(props) {
             style={{
               width: wp(100),
               height: hp(50),
-              borderBottomLeftRadius: 40,
-              borderBottomRightRadius: 40,
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
             }}
           />
         </View>
