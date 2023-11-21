@@ -93,6 +93,7 @@ export default function HomeScreen() {
             categories={categories}
           />
         </View>
+
         {/* categories area end */}
       </ScrollView>
     </View>
