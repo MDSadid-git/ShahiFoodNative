@@ -1,122 +1,68 @@
-import { View, Text, ScrollView, Image, TextInput } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, Image } from "react-native";
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
-import Categories from "../components/categories";
-import axios from "axios";
-import Recipes from "../components/recipes";
-export default function HomeScreen() {
-  const [activeCategory, setActiveCategory] = useState("Beef");
-  const [categories, setCategories] = useState([]);
-  const [meals, setMeals] = useState([]);
+import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
+import { useNavigation } from "@react-navigation/native";
+
+export default function WelcomeScreen() {
+  const ring1padding = useSharedValue(0);
+  const ring2padding = useSharedValue(0);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
-    getCategories();
-    getRecipes();
+    ring1padding.value = 0;
+    ring2padding.value = 0;
+    setTimeout(
+      () => (ring1padding.value = withSpring(ring1padding.value + hp(5))),
+      100
+    );
+    setTimeout(
+      () => (ring2padding.value = withSpring(ring2padding.value + hp(5.5))),
+      300
+    );
+
+    setTimeout(() => navigation.navigate("Login"), 2000);
   }, []);
-
-  const handleChangeCategory = (category) => {
-    getRecipes(category);
-    setActiveCategory(category);
-    setMeals([]);
-  };
-
-  const getCategories = async () => {
-    try {
-      const response = await axios.get(
-        "https://themealdb.com/api/json/v1/1/categories.php"
-      );
-      // console.log('got categories: ',response.data);
-      if (response && response.data) {
-        setCategories(response.data.categories);
-      }
-    } catch (err) {
-      console.log("error: ", err.message);
-    }
-  };
-  const getRecipes = async (category = "Beef") => {
-    try {
-      const response = await axios.get(
-        `https://themealdb.com/api/json/v1/1/filter.php?c=${category}`
-      );
-      // console.log('got recipes: ',response.data);
-      if (response && response.data) {
-        setMeals(response.data.meals);
-      }
-    } catch (err) {
-      console.log("error: ", err.message);
-    }
-  };
   return (
-    <View className="flex-1 bg-pink-500 ">
-      <StatusBar style="dark" />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 50 }}
-        className="space-y-6 pt-14"
+    <View className="flex-1 justify-center items-center space-y-10 bg-pink-500">
+      <StatusBar style="light" />
+
+      {/* logo image with rings */}
+      <Animated.View
+        className="bg-white/20 rounded-lg"
+        style={{ padding: ring2padding }}
       >
-        {/* All Imgage and bell icon area start */}
-        <View className="mx-4 flex-row justify-between items-center mb-2">
+        <Animated.View
+          className="bg-white/20 rounded-lg"
+          style={{ padding: ring1padding }}
+        >
           <Image
-            source={require("../../assets/images/avatar.png")}
-            style={{ height: hp(5), width: hp(5.5) }}
+            source={require("../../assets/images/Welcome.jpg")}
+            style={{ width: hp(20), height: hp(20) }}
           />
-          <BellIcon size={hp(4)} color="white" />
-        </View>
-        {/* All Imgage and bell icon area end */}
+        </Animated.View>
+      </Animated.View>
 
-        {/* Greeting area start  */}
-        <View className="mx-4 space-y-2 mb-2">
-          <Text style={{ fontSize: hp(1.7) }} className="text-white">
-            Hi, Sadid!
-          </Text>
-          <View>
-            <Text
-              style={{ fontSize: hp(3.8) }}
-              className="font-semibold text-white"
-            >
-              Make your own <Text className="text-pink-500 bg-white">Food</Text>
-            </Text>
-          </View>
-        </View>
-        {/* Greeting area end */}
-
-        {/* search area start */}
-        <View className="mx-4 flex-row items-center rounded-full bg-gray-100 p-[6px]">
-          <TextInput
-            placeholder="Search any recipe"
-            placeholderTextColor={"gray"}
-            style={{ fontSize: hp(1.7) }}
-            className="flex-1 text-base mb-1 pl-3 tracking-wider"
-          />
-          <View className="bg-white rounded-full p-3">
-            <MagnifyingGlassIcon size={hp(2.5)} strokeWidth={3} color="gray" />
-          </View>
-        </View>
-        {/* search area end */}
-
-        {/* categories area start */}
-        <View>
-          {categories.length > 0 && (
-            <Categories
-              categories={categories}
-              activeCategory={activeCategory}
-              handleChangeCategory={handleChangeCategory}
-            />
-          )}
-        </View>
-        {/* categories area end */}
-
-        {/* recipes area start */}
-        <View>
-          <Recipes meals={meals} categories={categories} />
-        </View>
-        {/* recipes area end */}
-      </ScrollView>
+      {/* title and punchline */}
+      <View className="flex items-center space-y-2">
+        <Text
+          style={{ fontSize: hp(7) }}
+          className="font-bold text-white tracking-widest"
+        >
+          Shahi Food
+        </Text>
+        <Text
+          style={{ fontSize: hp(2) }}
+          className="font-medium text-white tracking-widest"
+        >
+          Food is always right
+        </Text>
+      </View>
     </View>
   );
 }

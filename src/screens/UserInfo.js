@@ -40,7 +40,7 @@ export default function LoginScreen() {
           style={{ borderWidth: 2, borderRadius: 16, borderColor: "#E5E7EB" }}
         >
           <Image
-            source={require("../../assets/images/welcome.png")} // Replace with the actual path to your profile image
+            source={require("../../assets/images/Welcome.jpg")} // Replace with the actual path to your profile image
             style={{ width: "100%", height: 160, borderRadius: 16 }}
           />
           <View style={{ padding: 20 }}>
